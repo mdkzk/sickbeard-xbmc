@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+<category label="Network">
+<setting id="Sickbeard IP" type="text" label="Sickbeard IP" default="" />
+<setting id="Sickbeard Port" type="text" label="Sickbeard Port" default="" />
+</category>
+</settings>
