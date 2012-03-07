@@ -4,4 +4,8 @@
 <setting id="Sickbeard IP" type="text" label="Sickbeard IP" default="" />
 <setting id="Sickbeard Port" type="text" label="Sickbeard Port" default="" />
 </category>
+<category label="Login">
+<setting id="Sickbeard Username" type="text" label="Sickbeard Username" default="" />
+<setting id="Sickbeard Password" type="text" label="Sickbeard Password" default="" />
+</category>
 </settings>
