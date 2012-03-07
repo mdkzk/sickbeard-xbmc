@@ -7,12 +7,19 @@ import xbmcaddon
 addon = xbmcaddon.Addon(id='plugin.program.sickbeard')
 ip = addon.getSetting('Sickbeard IP')
 port = addon.getSetting('Sickbeard Port')
+username = addon.getSetting('Sickbeard Username')
+password = addon.getSetting('Sickbeard Password')
 
 if ip == "" or port == "":
         dialog = xbmcgui.Dialog()
         dialog.ok("Sickbeard Error", "Must configure plugin settings before use")
         sys.exit()
-
+try:
+        import resources.lib.settings as settings
+        settings.GetAPIKey(ip, port, username, password)
+except:
+        sys.exit()
+        
 # Add the main directory folders
 def mainMenu():
         addDirectory('Manage Shows', 1)
