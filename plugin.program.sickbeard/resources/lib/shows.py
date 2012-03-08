@@ -27,7 +27,7 @@ def menu():
 
 # Add directory item
 def addShowDirectory(show_name, tvdbid, menu_number, thumbnail_path, show_total, context_menu_items):
-    return_url = sys.argv[0]+"?url="+urllib.quote_plus(str(tvdbid))+"&mode="+str(menu_number)+"&name="+urllib.quote_plus(show_name)
+    return_url = sys.argv[0]+"?url="+urllib.quote_plus(str(tvdbid))+"&mode="+str(menu_number)+"&name="+urllib.quote_plus(show_name.encode( "utf-8" ))
     list_item = xbmcgui.ListItem(show_name, thumbnailImage=thumbnail_path)
     list_item.addContextMenuItems(context_menu_items)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=return_url, listitem=list_item, isFolder=True, totalItems=show_total)  
