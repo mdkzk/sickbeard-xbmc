@@ -1,6 +1,10 @@
 import urllib
+import socket
 import json
 import settings
+
+timeout = 45
+socket.setdefaulttimeout(timeout)
 
 # Sickbeard class which mas all API calls to Sickbeard
 class SB():
@@ -122,3 +126,8 @@ class SB():
       result=json.load(urllib.urlopen(settings.__url__+'?cmd=show.pause&tvdbid='+show_id+'&pause='+paused))
       message = result['message']
       return message
+  
+  def ManualSearch(self, tvdbid, season, ep):
+      result=json.load(urllib.urlopen(settings.__url__+'?cmd=episode.search&tvdbid='+str(tvdbid)+'&season='+str(season)+'&episode='+str(ep)))
+      message = result['message']
+      return message      

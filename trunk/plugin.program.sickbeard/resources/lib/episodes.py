@@ -34,6 +34,6 @@ def addEpisodeDirectory(ep_number, ep_name, ep_status, ep_tvdbid, ep_season, thu
     season_status_args = ", "+ep_tvdbid+", "+ep_season+", "+"|".join(season_numbers)
 
     list_item = xbmcgui.ListItem(str(ep_number)+". "+ep_status+": "+ep_name, thumbnailImage=thumb)
-    menu_items = [('Set Episode Status', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setstatus.py'+episode_status_args+')'), ('Set Season Status', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setstatus.py'+season_status_args+')'),('Refresh Episodes', 'xbmc.executebuiltin("Container.Refresh")'),]
+    menu_items = [('Set Episode Status', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setstatus.py'+episode_status_args+')'), ('Set Season Status', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setstatus.py'+season_status_args+')'), ('Episode Manual Search', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/manualsearch.py'+episode_status_args+')'),('Refresh Episodes', 'xbmc.executebuiltin("Container.Refresh")'),]
     list_item.addContextMenuItems(menu_items)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url='', listitem=list_item, isFolder=False, totalItems=episode_total)
