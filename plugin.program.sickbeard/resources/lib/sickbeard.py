@@ -18,8 +18,8 @@ class SB():
       for id in show_ids:
           result=json.load(urllib.urlopen(settings.__url__+'?cmd=show&tvdbid='+id))
           name=result['data']['show_name']
-          show_id=id
-          show_info[name] = id
+          paused=result['data']['paused']
+          show_info[name] = [id, paused]
       return show_info
     
   # Returns the details of a show from Sickbeard 
@@ -111,3 +111,14 @@ class SB():
   def AddNewShow(self, tvdbid, location, status, use_folders, quality):
     result=json.load(urllib.urlopen(settings.__url__+'?cmd=show.addnew&tvdbid='+str(tvdbid)+'&location'+location+'&status='+status+'&season_folder='+str(use_folders)+'&initial='+quality))
     return result['result']
+
+  # Return a list of the last 20 snatched/downloaded episodes    
+  def ForceSearch(self):
+      result=json.load(urllib.urlopen(settings.__url__+'?cmd=sb.forcesearch'))
+      success = result['result']
+      settings.messageWindow("Force Search", "Force search returned "+success)
+
+  def SetPausedState(self, paused, show_id):
+      result=json.load(urllib.urlopen(settings.__url__+'?cmd=show.pause&tvdbid='+show_id+'&pause='+paused))
+      message = result['message']
+      return message
