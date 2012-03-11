@@ -12,8 +12,13 @@ def GetShowInfo():
     show_info = Sickbeard.GetShowInfo(show_ids)
 
     show_names = []
-    for name, tvdbid in sorted(show_info.iteritems()):
-      show_names.append([name, str(tvdbid), Sickbeard.GetShowPoster(tvdbid)])
+    for name, info in sorted(show_info.iteritems()):
+      tvdbid, paused = info
+      if paused == 0:
+          paused = "Pause"
+      else:
+          paused = "Unpause"
+      show_names.append([name, str(tvdbid), Sickbeard.GetShowPoster(tvdbid), paused])
       
     return show_names
 
@@ -21,8 +26,8 @@ def GetShowInfo():
 def menu():
       show_info = GetShowInfo()
       show_total = len(show_info)
-      context_menu_items = [('Add Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/addshow.py)'),('Refresh Shows', 'xbmc.executebuiltin("Container.Refresh")')]
-      for show_name, tvdbid, thumbnail_path in show_info:
+      for show_name, tvdbid, thumbnail_path, paused in show_info:
+        context_menu_items = [('Add New Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/addshow.py)'),('Force Search', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/forcesearch.py)'),(paused+' Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setpausestate.py, '+paused+', '+tvdbid+')'), ('Refresh Shows', 'xbmc.executebuiltin("Container.Refresh")')]
         addShowDirectory(show_name, tvdbid, 4, thumbnail_path, show_total, context_menu_items)
 
 # Add directory item

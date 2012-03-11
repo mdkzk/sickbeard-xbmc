@@ -67,6 +67,11 @@ else:
     __custom_url__= ""
 
 # Show error pop up then exit plugin
+def messageWindow(header, message):
+    dialog = xbmcgui.Dialog()
+    dialog.ok(header, message)
+
+# Show error pop up then exit plugin
 def errorWindow(header, message):
     dialog = xbmcgui.Dialog()
     dialog.ok(header, message)
