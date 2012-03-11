@@ -5,16 +5,23 @@ import urllib2
 import sys
 import xbmcgui
 
-# Hackish... not sure if there is a better way to get the API key
-# Parses the HTML of the General page and pulls the API key
-def GetAPIKey(ip, port, username, password):
-    # Get API key from Sickbeark
+def createURL(ip, port, custom_url):
+    if custom_url != "":
+        return custom_url
     if str(ip) == "" or str(port) == "":
         displayError("1")
+    else:
+        return "http://"+str(ip)+":"+str(port)
+    
+# Hackish... not sure if there is a better way to get the API key
+# Parses the HTML of the General page and pulls the API key
+def GetAPIKey(ip, port, username, password, custom_url):
+    # Get API key from Sickbeark
+    base_url = createURL(ip, port, custom_url)
     if username and password:
         try:
             password_manager = urllib2.HTTPPasswordMgrWithDefaultRealm()
-            url = "http://" + ip + ":" + port+ '/config/general/'
+            url = base_url + '/config/general/'
             password_manager.add_password(None, url, username, password)
             authhandler = urllib2.HTTPBasicAuthHandler(password_manager)
             opener = urllib2.build_opener(authhandler)
@@ -28,7 +35,7 @@ def GetAPIKey(ip, port, username, password):
             displayError("3")
     else:    
         try:
-            html=urllib.urlopen('http://'+ip+':'+port+'/config/general/')
+            html=urllib.urlopen(base_url+'/config/general/')
             result=html.readlines()
             html.close()
         except:
@@ -53,6 +60,11 @@ __ip__ = __addon__.getSetting('Sickbeard IP')
 __port__= __addon__.getSetting('Sickbeard Port')
 __username__ = __addon__.getSetting('Sickbeard Username')
 __password__= __addon__.getSetting('Sickbeard Password')
+__url_bool__= __addon__.getSetting('CustomURL')
+if __url_bool__ == "true":
+    __custom_url__= __addon__.getSetting('Sickbeard URL')
+else:
+    __custom_url__= ""
 
 # Show error pop up then exit plugin
 def errorWindow(header, message):
@@ -72,5 +84,5 @@ def displayError(error_code):
         errorWindow("Sickbeard Error", "Unable to retrieve API key.\nCheck API is enabled under general settings.")
 
 
-__APIKey__ = GetAPIKey(__ip__, __port__, __username__,__password__)
+__APIKey__ = GetAPIKey(__ip__, __port__, __username__,__password__, __custom_url__)
 __url__='http://'+__ip__+':'+__port__+'/api/'+__APIKey__+'/'
