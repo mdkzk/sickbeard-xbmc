@@ -7,7 +7,7 @@ timeout = 45
 socket.setdefaulttimeout(timeout)
 
 # Sickbeard class which mas all API calls to Sickbeard
-class SB():
+class SB:
   # Get the show ID numbers
   def GetShowIds(self):
       show_ids=[]
