@@ -22,7 +22,7 @@ def GetSeasons(tvdbid):
 def menu(tvdbid):
       season_list = GetSeasons(tvdbid)
       season_total = len(season_list)
-      context_items = [('Refresh Seasons', 'xbmc.executebuiltin("Container.Refresh")',)]
+      context_items = [('Refresh Season List', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/refresh.py)')]
       for season_number, season_text in season_list:
         addSeasonDirectory(season_number, season_text, tvdbid, 5, "", season_total, context_items)
       
