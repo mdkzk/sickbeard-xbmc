@@ -130,4 +130,9 @@ class SB:
   def ManualSearch(self, tvdbid, season, ep):
       result=json.load(urllib.urlopen(settings.__url__+'?cmd=episode.search&tvdbid='+str(tvdbid)+'&season='+str(season)+'&episode='+str(ep)))
       message = result['message']
-      return message      
+      return message    
+  
+  def DeleteShow(self, tvdbid):
+      result=json.load(urllib.urlopen(settings.__url__+'?cmd=show.delete&tvdbid='+str(tvdbid)))
+      message = result['message']
+      return message   

@@ -2,7 +2,7 @@
 <addons>
 <addon id="plugin.program.sickbeard"
        name="Sickbeard XBMC"
-       version="1.0.7"
+       version="1.0.8"
        provider-name="Zach Moore">
   <requires>
     <import addon="xbmc.python" version="2.0"/>

@@ -3,6 +3,7 @@ import sys
 import urllib
 import xbmcplugin
 import xbmcgui
+import xbmc
 
 Sickbeard = sickbeard.SB()
 
@@ -27,7 +28,11 @@ def menu():
       show_info = GetShowInfo()
       show_total = len(show_info)
       for show_name, tvdbid, thumbnail_path, paused in show_info:
-        context_menu_items = [('Add New Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/addshow.py)'),('Force Search', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/forcesearch.py)'),(paused+' Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setpausestate.py, '+paused+', '+tvdbid+')'), ('Refresh Shows', 'xbmc.executebuiltin("Container.Refresh")')]
+        context_menu_items = [('Add New Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/addshow.py)'),\
+                              ('Delete Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/deleteshow.py, '+tvdbid+', '+show_name+')'),\
+                              ('Force Search', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/forcesearch.py)'),\
+                              (paused+' Show', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/setpausestate.py, '+paused+', '+tvdbid+')'),\
+                              ('Refresh Show List', 'XBMC.RunScript(special://home/addons/plugin.program.sickbeard/resources/lib/refresh.py)')]
         addShowDirectory(show_name, tvdbid, 4, thumbnail_path, show_total, context_menu_items)
 
 # Add directory item
