@@ -90,8 +90,9 @@ class SB:
   # Return a list of the default settings for adding a new show
   def GetDefaults(self):
     defaults_result = json.load(urllib.urlopen(settings.__url__+'?cmd=sb.getdefaults'))
-    defaults_result = defaults_result['data']
-    defaults = [defaults_result['status'], defaults_result['season_folders'], str(defaults_result['initial'])]
+    print defaults_result.keys()
+    defaults_data = defaults_result['data']
+    defaults = [defaults_data['status'], defaults_data['flatten_folders'], str(defaults_data['initial'])]
     return defaults
   
   # Return a list of the save paths set in Sickbeard
