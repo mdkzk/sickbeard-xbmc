@@ -43,7 +43,15 @@ def AddShow():
 def ShowSelectMessage(shows):
   formatted_shows = []
   for show in shows:
-    formatted_shows.append(show['name']+"  -  ("+show['first_aired']+")")
+    try:
+      show_name = ""+show['name']
+    except TypeError:
+      continue
+    try:
+      first_aired = ""+show['first_aired']
+    except TypeError:
+      first_aired = "Unknown"
+    formatted_shows.append(show_name+"  -  ("+first_aired+")")
   dialog = xbmcgui.Dialog()
   ret = dialog.select("Search Results", formatted_shows)
   return ret
@@ -77,10 +85,11 @@ def SetInitialStatusMessage(status):
   return status_list_return[ret]
 
 # Use season folders selection window
-def SetSeasonFolderMessage(use_folders):
-  if use_folders == 1:
-    default = "Yes"
+def SetSeasonFolderMessage(flatten_folders):
+  if flatten_folders == 1:
+    default = "No"
   else:
+    default = "Yes"
     default = "No"
   dialog = xbmcgui.Dialog()
   ret = dialog.yesno("Use season folders?", "Default: "+default)
