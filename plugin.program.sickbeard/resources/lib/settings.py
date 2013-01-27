@@ -5,19 +5,22 @@ import urllib2
 import sys
 import xbmcgui
 
-def createURL(ip, port, custom_url):
+def createURL(ip, port, use_ssl, custom_url):
     if custom_url != "":
         return custom_url
     if str(ip) == "" or str(port) == "":
         displayError("1")
     else:
-        return "http://"+str(ip)+":"+str(port)
-    
+        if use_ssl == "true":
+            return "https://"+str(ip)+":"+str(port)
+        else:
+            return "http://"+str(ip)+":"+str(port)
+
 # Hackish... not sure if there is a better way to get the API key
 # Parses the HTML of the General page and pulls the API key
-def GetAPIKey(ip, port, username, password, custom_url):
+def GetAPIKey(ip, port, use_ssl, username, password, custom_url):
     # Get API key from Sickbeark
-    base_url = createURL(ip, port, custom_url)
+    base_url = createURL(ip, port, use_ssl, custom_url)
     if username and password:
         try:
             password_manager = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -58,6 +61,7 @@ def GetAPIKey(ip, port, username, password, custom_url):
 __addon__ = xbmcaddon.Addon(id='plugin.program.sickbeard')
 __ip__ = __addon__.getSetting('Sickbeard IP')
 __port__= __addon__.getSetting('Sickbeard Port')
+__ssl_bool__= __addon__.getSetting('Use SSL')
 __username__ = __addon__.getSetting('Sickbeard Username')
 __password__= __addon__.getSetting('Sickbeard Password')
 __url_bool__= __addon__.getSetting('CustomURL')
@@ -89,5 +93,8 @@ def displayError(error_code):
         errorWindow("Sickbeard Error", "Unable to retrieve API key.\nCheck API is enabled under general settings.")
 
 
-__APIKey__ = GetAPIKey(__ip__, __port__, __username__,__password__, __custom_url__)
-__url__='http://'+__ip__+':'+__port__+'/api/'+__APIKey__+'/'
+__APIKey__ = GetAPIKey(__ip__, __port__, __ssl_bool__, __username__,__password__, __custom_url__)
+if __ssl_bool__ == "true":
+    __url__='https://'+__ip__+':'+__port__+'/api/'+__APIKey__+'/'
+else:
+    __url__='http://'+__ip__+':'+__port__+'/api/'+__APIKey__+'/'
